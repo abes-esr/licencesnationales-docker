@@ -9,18 +9,18 @@ Les URL de l'applications sur les différents environnements :
 - prod :
   - https://acces.licencesnationales.fr/ : URL publique de licencesnationales-front
   - https://acces.licencesnationales.fr/v1/ : URL publique de licencesnationales-web
-  - http://diplotaxis1-prod.v102.abes.fr:10401/ : URL interne de licencesnationales-front (accès via VPN)
-  - http://diplotaxis1-prod.v102.abes.fr:10400/v1/ : URL interne de licencesnationales-web (accès via VPN)
+  - http://diplotaxis3-prod.v102.abes.fr:10401/ : URL interne de licencesnationales-front (accès via VPN)
+  - http://diplotaxis3-prod.v102.abes.fr:10400/v1/ : URL interne de licencesnationales-web (accès via VPN)
 - test :
   - https://acces-test.licencesnationales.fr/ : URL publique de licencesnationales-front (accès via IP Renater)
   - https://acces-dev.licencesnationales.fr/v1/ : URL publique de licencesnationales-web (accès via IP Renater)
-  - http://diplotaxis1-test.v202.abes.fr:10401/ : URL interne de licencesnationales-front (accès via VPN)
-  - http://diplotaxis1-test.v202.abes.fr:10400/v1/ : URL interne de licencesnationales-web (accès via VPN)
+  - http://diplotaxis3-test.v202.abes.fr:10401/ : URL interne de licencesnationales-front (accès via VPN)
+  - http://diplotaxis3-test.v202.abes.fr:10400/v1/ : URL interne de licencesnationales-web (accès via VPN)
 - dev :
   - https://acces-dev.licencesnationales.fr/ : URL publique de licencesnationales-front (accès via VPN)
   - https://acces-dev.licencesnationales.fr/v1/ : URL publique de licencesnationales-web (accès via VPN)
-  - http://diplotaxis-dev.v212.abes.fr:10401/  : URL interne de licencesnationales-front (accès via VPN)
-  - http://diplotaxis-dev.v212.abes.fr:10400/v1/  : URL interne de licencesnationales-web (accès via VPN)
+  - http://diplotaxis3-dev.v212.abes.fr:10401/  : URL interne de licencesnationales-front (accès via VPN)
+  - http://diplotaxis3-dev.v212.abes.fr:10400/v1/  : URL interne de licencesnationales-web (accès via VPN)
 - local :
   - http://127.0.0.1:10401/ : URL interne de licencesnationales-front
   - http://127.0.0.1:10400/v1/ : URL interne de licencesnationales-web
