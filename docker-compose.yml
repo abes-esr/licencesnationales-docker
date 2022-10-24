@@ -79,3 +79,31 @@ services:
       - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
       - "co.elastic.logs/processors.add_fields.fields.abes_middleware=java-spring"
 
+
+
+  #######################################
+  # licencesnationales-watchtower
+  # Conteneur chargé de mettre à jour automatiquement toutes les N secondes
+  # les images docker des conteneurs surveillés (via le système de label/scope de watchtower)
+  # plus d'info : https://containrrr.dev/watchtower
+  # cf README.md pour explications : https://github.com/abes-esr/licencesnationales-docker#d%C3%A9ploiement-continu
+  licencesnationales-watchtower:
+    image: containrrr/watchtower:1.4.0
+    container_name: licencesnationales-watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: 60
+      WATCHTOWER_DEBUG: "false"
+      WATCHTOWER_NO_STARTUP_MESSAGE: "true"
+      WATCHTOWER_WARN_ON_HEAD_FAILURE: "never"
+      WATCHTOWER_RUN_ONCE: ${LN_WATCHTOWER_RUN_ONCE}
+      WATCHTOWER_NOTIFICATIONS: "slack"
+      WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL: ${LN_WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
+      WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER: ${LN_WATCHTOWER_NOTIFICATION_SLACK_IDENTIFIER}
+      WATCHTOWER_NOTIFICATION_SLACK_CHANNEL: "#notif-licencesnationales"
+      WATCHTOWER_SCOPE: "licencesnationales-watchtower-scope"
+    labels:
+      - "com.centurylinklabs.watchtower.scope=licencesnationales-watchtower-scope"
