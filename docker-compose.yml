@@ -19,14 +19,14 @@ services:
       - LN_VUE_APP_RECAPTCHA_KEY_SITE=${LN_FRONT_VUE_APP_RECAPTCHA_KEY_SITE}
     ports:
       - ${LN_FRONT_HTTP_PORT}:80
+    depends_on:
+      - licencesnationales-web
     labels:
       # pour envoyer les logs dans le puits de log de l'abes
       - "co.elastic.logs/enabled=true"
       - "co.elastic.logs/processors.add_fields.target="
       - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
       - "co.elastic.logs/processors.add_fields.fields.abes_middleware=nginx"
-    depends_on:
-      - licencesnationales-web
       # pour que les mises à jour de cette image soient auto-déployées par watchtower
       - "com.centurylinklabs.watchtower.scope=licencesnationales-watchtower-scope"
 
