@@ -27,6 +27,9 @@ services:
       - "co.elastic.logs/processors.add_fields.fields.abes_middleware=nginx"
     depends_on:
       - licencesnationales-web
+      # pour que les mises à jour de cette image soient auto-déployées par watchtower
+      - "com.centurylinklabs.watchtower.scope=licencesnationales-watchtower-scope"
+
 
 
   licencesnationales-web:
@@ -53,6 +56,8 @@ services:
       - "co.elastic.logs/processors.add_fields.target="
       - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
       - "co.elastic.logs/processors.add_fields.fields.abes_middleware=java-spring"
+      # pour que les mises à jour de cette image soient auto-déployées par watchtower
+      - "com.centurylinklabs.watchtower.scope=licencesnationales-watchtower-scope"
 
 
 
@@ -80,6 +85,8 @@ services:
       - "co.elastic.logs/processors.add_fields.target="
       - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
       - "co.elastic.logs/processors.add_fields.fields.abes_middleware=java-spring"
+      # pour que les mises à jour de cette image soient auto-déployées par watchtower
+      - "com.centurylinklabs.watchtower.scope=licencesnationales-watchtower-scope"
 
 
 
