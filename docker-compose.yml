@@ -1,0 +1,64 @@
+#
+# Ci-dessous la config qui permet de lancer licencesnationales (3 conteneurs)
+#
+# Remarque: avant de lancer docker-compose up, il faut régler le fichier .env
+# en partant du fichier .env-dist qui donne les variables d'environnements
+# à personnaliser et des exemples de valeurs.
+#
+
+version: "3"
+
+services:
+
+  licencesnationales-front:
+    image: abesesr/licencesnationales:${LN_FRONT_VERSION}
+    container_name: licencesnationales-front
+    restart: unless-stopped
+    environment:
+      - LN_VUE_APP_ROOT_API=${LN_FRONT_VUE_APP_ROOT_API}
+      - LN_VUE_APP_RECAPTCHA_KEY_SITE=${LN_FRONT_VUE_APP_RECAPTCHA_KEY_SITE}
+    ports:
+      - ${LN_FRONT_HTTP_PORT}:80
+    labels:
+      # pour envoyer les logs dans le puits de log de l'abes
+      - "co.elastic.logs/enabled=true"
+      - "co.elastic.logs/processors.add_fields.target="
+      - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
+      - "co.elastic.logs/processors.add_fields.fields.abes_middleware=nginx"
+    depends_on:
+      - licencesnationales-web
+
+
+  licencesnationales-web:
+    image: abesesr/licencesnationales:${LN_WEB_VERSION}
+    container_name: licencesnationales-web
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=${LN_SPRING_PROFILES_ACTIVE}
+      # ... TODO ajouter les var
+    ports:
+      - ${LN_WEB_HTTP_PORT}:8080
+    labels:
+      # pour envoyer les logs dans le puits de log de l'abes
+      - "co.elastic.logs/enabled=true"
+      - "co.elastic.logs/processors.add_fields.target="
+      - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
+      - "co.elastic.logs/processors.add_fields.fields.abes_middleware=java-spring"
+
+
+
+  licencesnationales-batch:
+    image: abesesr/licencesnationales:${LN_BATCH_VERSION}
+    container_name: licencesnationales-batch
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=${LN_SPRING_PROFILES_ACTIVE}
+      - LN_BATCH_AT_STARTUP=${LN_BATCH_AT_STARTUP}
+      - LN_BATCH_CRON=${LN_BATCH_CRON}
+    labels:
+      # pour envoyer les logs dans le puits de log de l'abes
+      - "co.elastic.logs/enabled=true"
+      - "co.elastic.logs/processors.add_fields.target="
+      - "co.elastic.logs/processors.add_fields.fields.abes_appli=licencesnationales"
+      - "co.elastic.logs/processors.add_fields.fields.abes_middleware=java-spring"
+
