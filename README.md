@@ -127,8 +127,8 @@ Ou bien [lancer le conteneur ``licencesnationales-watchtower``](https://github.c
 
 ## Architecture
 
-[![](https://docs.google.com/drawings/d/e/2PACX-1vQtkQo11L20Tc_OTkz6o3t2pqPKK4jdp0gNAd1lpyA_r1ExQGKTnTAZ09nuJl9DnGpUkbjzlgzflH5s/pub?w=1268&amp;h=641)](https://docs.google.com/drawings/d/1vlTB03DNbbT8l-0Ca4KpGdLxyKGHqdRo1UKT39aJjIA/edit?usp=sharing)
-
+![](https://docs.google.com/drawings/d/e/2PACX-1vQtkQo11L20Tc_OTkz6o3t2pqPKK4jdp0gNAd1lpyA_r1ExQGKTnTAZ09nuJl9DnGpUkbjzlgzflH5s/pub?w=1268&amp;h=641)  
+([lien](https://docs.google.com/drawings/d/1vlTB03DNbbT8l-0Ca4KpGdLxyKGHqdRo1UKT39aJjIA/edit) pour modifier le schéma)
 
 A noter que les images docker de licencesnationales sont générées à partir des codes open sources disponibles ici :
 - https://github.com/abes-esr/licencesnationales-back/ via la chaine d'intégration continue [build-test-pubtodockerhub.yml](https://github.com/abes-esr/licencesnationales-back/actions/workflows/build-test-pubtodockerhub.yml) qui pousse les images sur [dockerhub ici](https://hub.docker.com/r/abesesr/licencesnationales/)
