@@ -58,6 +58,7 @@ services:
       LOGGING_CONFIG: ${LN_LOG_CONFIG}
       LOGGING_LEVEL_ROOT: ${LN_LOG_LEVEL_ROOT}
       SIREN_TOKEN: ${LN_SIREN_TOKEN}
+      SIREN_URL: ${LN_SIREN_URL}
     ports:
       - ${LN_WEB_HTTP_PORT}:8080
     labels:
