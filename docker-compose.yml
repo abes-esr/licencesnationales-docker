@@ -14,6 +14,7 @@ services:
     image: abesesr/licencesnationales:${LN_FRONT_VERSION}
     container_name: licencesnationales-front
     restart: unless-stopped
+    mem_limit: ${MEM_LIMIT}
     environment:
       - LN_VUE_APP_ROOT_API=${LN_FRONT_VUE_APP_ROOT_API}
       - LN_VUE_APP_RECAPTCHA_KEY_SITE=${LN_FRONT_VUE_APP_RECAPTCHA_KEY_SITE}
@@ -36,6 +37,7 @@ services:
     image: abesesr/licencesnationales:${LN_WEB_VERSION}
     container_name: licencesnationales-web
     restart: unless-stopped
+    mem_limit: ${MEM_LIMIT}
     environment:
       SPRING_PROFILES_ACTIVE: ${LN_SPRING_PROFILES_ACTIVE}
       SITE_URL: ${LN_SPRING_SITE_URL}
@@ -55,6 +57,7 @@ services:
       GOOGLE_FR_ABES_LICENCESNATIONALES_RECAPTCHA_KEY_THRESHOLD: ${LN_SPRING_GOOGLE_FR_ABES_LICENCESNATIONALES_RECAPTCHA_KEY_THRESHOLD}
       LOGGING_CONFIG: ${LN_LOG_CONFIG}
       LOGGING_LEVEL_ROOT: ${LN_LOG_LEVEL_ROOT}
+      SIREN_TOKEN: ${LN_SIREN_TOKEN}
     ports:
       - ${LN_WEB_HTTP_PORT}:8080
     labels:
@@ -72,6 +75,7 @@ services:
     image: abesesr/licencesnationales:${LN_BATCH_VERSION}
     container_name: licencesnationales-batch
     restart: unless-stopped
+    mem_limit: ${MEM_LIMIT}
     environment:
       LN_BATCH_AT_STARTUP: ${LN_BATCH_AT_STARTUP}
       LN_BATCH_CRON: ${LN_BATCH_CRON}
@@ -118,6 +122,7 @@ services:
     image: containrrr/watchtower:1.4.0
     container_name: licencesnationales-watchtower
     restart: unless-stopped
+    mem_limit: ${MEM_LIMIT}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -134,3 +139,4 @@ services:
       WATCHTOWER_SCOPE: "licencesnationales-watchtower-scope"
     labels:
       - "com.centurylinklabs.watchtower.scope=licencesnationales-watchtower-scope"
+
