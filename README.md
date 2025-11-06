@@ -85,17 +85,58 @@ docker-compose logs --tail=50 -f
 ```
 A noter que ces logs sont envoyées automatiquement au puits de log de l'Abes à l'aide du client filebeat installé sur le noeud docker et à la configuration que nous lui indiquons dans les labels.
 
-## Sauvegardes et restauration
+## Sauvegardes
 
 Pour sauvegarder l'application, il faut :
-- Sauvegarder la base de données (base Oracle sur les serveurs orpin)
-- Sauvegarder le fichier ``/opt/pod/licencesnationales-docker/.env`` (les autres fichiers sont versionnés sur le github de ``licencesnationales-docker``)
+- Sauvegarder la base de données (base Oracle sur les serveurs "orpins"). En plus des sauvegardes de type RMan , des exports sont réalisés avec expdp.
+- Sauvegarder le fichier ``/opt/pod/licencesnationales-docker/.env`` qui est un fichier non versionné et qui permet de configurer tous les conteneurs docker de l'application (les autres fichiers sont versionnés sur le github de ``licencesnationales-docker``)
 
-Pour restaurer l'application, il faut :
-- restaurer la base de données
-- réinstaller/redéployer l'application (cf plus haut la section installation) en récupérant le fichier ``/opt/pod/licencesnationales-docker/.env`` depuis les sauvegardes.
+Ces deux opérations sont prises en charge par le SIAT.
 
+## Restauration
+### Restauration de la base de données Oracle
 
+- se connecter avec le compte oracle sur ononis (machine Oracle) :
+ 
+- Récupérer la sauvegarde depuis sotora : 
+```bash
+rsync --progress -av devel@socorro.v104.abes.fr:/backup_pool/ononis-prod-dumps/daily.0/racine/backup-sql/ABES/LICENCESNATIONALES/dumpLICENCESNATIONALES.dmp /backup-sql/ABES/LICENCESNATIONALES/dumpLICENCESNATIONALES.dmp
+```
+*Pour sélectionner une sauvegarde autre que la plus récente, il suffit de remplacer daily.0 dans la commande par le jour souhaité (daily.1 pour la veille, daily.2 pour l'avant-veille, etc.)*
+
+- Puis lancer les commandes suivantes pour importer le dump dans la base de données :
+
+```bash
+export NLS_LANG=AMERICAN_AMERICA.UTF8
+export ORACLE_SID='ABES'
+setsid impdp \'/ as sysdba\' SCHEMAS=LICENCESNATIONALES TABLE_EXISTS_ACTION=REPLACE dumpfile='dumpLICENCESNATIONALES.dmp' logfile=importLicencesNationales.log directory=DPDUMP_LICENCESNATIONALES
+```
+Si le directory object n'existe pas dans la base de données, il faut le créer : 
+```bash
+CREATE DIRECTORY DPDUMP_LICENCESNATIONALES AS '/backup-sql/ABES/LICENCESNATIONALES';
+```
+
+### Réinstallation de l'application
+
+- Se connecter avec son compte développeur sur la machine de déploiement diplotaxis4-prod (via Putty etc.)
+
+- Se positionner dans le répertoire des applications :
+```bash
+cd /opt/pod
+```
+- Récupérer le projet licencesnationales-docker et se positionner dans le répertoire :
+```bash
+git clone https://github.com/abes-esr/licencesnationales-docker.git
+cd licencesnationales-docker
+```
+- Récupérer le .env depuis sotora (authentification nécessaire) :
+```bash
+rsync -av devel@sotora.v104.abes.fr:/backup_pool/diplotaxis4-prod/daily.0/racine/opt/pod/licencesnationales-docker/.env /opt/pod/licencesnationales-docker/.env
+```
+- Lancer les containers : 
+```
+sudoc docker compose up -d
+```
 ## Déploiement continu
 
 Les objectifs des déploiements continus de licencesnationales sont les suivants (cf [poldev](https://github.com/abes-esr/abes-politique-developpement/blob/main/01-Gestion%20du%20code%20source.md#utilisation-des-branches)) :
