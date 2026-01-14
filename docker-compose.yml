@@ -125,6 +125,7 @@ services:
   # cf README.md pour explications : https://github.com/abes-esr/licencesnationales-docker#d%C3%A9ploiement-continu
   licencesnationales-watchtower:
     image: nickfedor/watchtower:1.13.1
+    container_name: licencesnationales-watchtower
     restart: unless-stopped
     mem_limit: ${MEM_LIMIT}
     memswap_limit: ${MEM_LIMIT}
